@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+
+  web:
+    image: nginx:mainline
+    ports:
+      - '8080:80'
+    volumes:
+      - ./src:/var/www/html
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    build:
+      dockerfile: ".docker/Dockerfile"
+      context: "."
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - kafka
+      - database
+
+  database:
+    image: postgres:12.18-bullseye
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: dev
+
+  kafka:
+    image: bitnami/kafka:3.3.2
+
+  worker:
+    image: php:cli
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - kafka
+      - database
