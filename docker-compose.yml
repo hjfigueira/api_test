@@ -25,8 +25,12 @@ services:
   database:
     image: postgres:12.18-bullseye
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: dev
+      POSTGRES_USER: dev
+      POSTGRES_DB: api
 
   kafka:
     image: bitnami/kafka:3.3.2

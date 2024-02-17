@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+Route::addRoute('GET', 'healthcheck', function(Request $request){
+    return new JsonResponse(['status' => 'OK']);
 });
+
+Route::apiResource('company', \App\Http\Controllers\Company::class);
+Route::apiResource('fund', \App\Http\Controllers\Fund::class);
