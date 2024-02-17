@@ -4,14 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Fund extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    protected $table = 'fund';
 
     public function manager()
     {
-        return $this->hasOne(FundManager::class);
+        return $this->belongsTo(FundManager::class, 'fund_manager_id','id');
     }
 
     public function investsIn()

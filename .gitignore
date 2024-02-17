@@ -7,6 +7,7 @@ yarn-error.log
 .phpunit.result.cache
 .idea
 
+src/composer.phar
 src/.phpunit.cache
 src/node_modules
 src/public/build
