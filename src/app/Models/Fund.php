@@ -13,6 +13,9 @@ class Fund extends Model
 
     protected $table = 'fund';
 
+    protected $fillable = ['name','start_year','fund_manager_id'];
+
+
     public function manager()
     {
         return $this->belongsTo(FundManager::class, 'fund_manager_id','id');

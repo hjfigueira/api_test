@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\Repository;
-use App\Http\ViewModels\ApiViewModel;
+use App\Http\Mapper\ApiMapperInterface;
+use App\Http\Repositories\BaseRepository;
+use App\Http\ViewModels\ApiViewModelInterface;
 
 interface ApiConfigurableController
 {
-    function getRepository() : Repository;
-
-    function getViewModel() : ApiViewModel;
+    function getRepository() : BaseRepository;
+    function getViewModel() : ApiViewModelInterface;
+    function getMapper() : ApiMapperInterface;
 }

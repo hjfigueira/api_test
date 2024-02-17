@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /** @todo improve error handling */
-abstract class Repository
+abstract class BaseRepository
 {
     /**
      * @var Builder Builder instance linked with a specific model
@@ -30,15 +30,14 @@ abstract class Repository
         return $queryBuilder->find($id);
     }
 
-    public function findAllPaginated(int $perPage): LengthAwarePaginator
+    public function findAllPaginated(int $perPage, int $page): LengthAwarePaginator
     {
-        return $this->queryBuilder->paginate($perPage);
+        return $this->queryBuilder->paginate($perPage,['*'], null, $page);
     }
 
     public function store(Model $model): Model|Builder
     {
-        $this->queryBuilder->create($model->toArray());
-        return $model->refresh();
+        return $this->queryBuilder->create($model->toArray());
     }
 
     public function update(Model $model) : Model

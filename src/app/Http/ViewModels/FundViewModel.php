@@ -2,9 +2,10 @@
 
 namespace App\Http\ViewModels;
 
+use App\Models\Fund;
 use Illuminate\Database\Eloquent\Model;
 
-class FundViewModel implements ApiViewModel
+class FundViewModel implements ApiViewModelInterface
 {
     public function details(Model $record) : array
     {
@@ -16,14 +17,22 @@ class FundViewModel implements ApiViewModel
         return $this->baseFormat($record);
     }
 
+    /**
+     * @param Fund $record
+     * @return array
+     */
     public function baseFormat(Model $record)
     {
+        $fundManagerViewModel = new FundManagerViewModel();
+
         return [
-            "name" => $record->name,
-            "start_year" => $record->start_year,
-            "fund_manager" => $record->manager->name, //@todo eager loading
-            "created_at" => $record->created_at,
-            "updated_at" => $record->updated_at,
+            'id'            => $record->id,
+            'name'          => $record->name,
+            'start_year'    => $record->start_year,
+            'fund_manager'  => $fundManagerViewModel->details($record->manager),
+            'aliases'       => $record->aliases,
+            'created_at'    => $record->created_at,
+            'updated_at'    => $record->updated_at,
         ];
     }
 }

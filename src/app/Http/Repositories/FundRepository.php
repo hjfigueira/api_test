@@ -5,7 +5,7 @@ namespace App\Http\Repositories;
 use App\Models\Fund;
 use Illuminate\Database\Eloquent\Model;
 
-class FundRepository extends Repository
+class FundRepository extends BaseRepository
 {
     public function getModel() : Model
     {

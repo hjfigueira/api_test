@@ -4,7 +4,7 @@ namespace App\Http\ViewModels;
 
 use Illuminate\Database\Eloquent\Model;
 
-interface ApiViewModel
+interface ApiViewModelInterface
 {
     public function details(Model $record) : array;
 
