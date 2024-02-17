@@ -16,18 +16,18 @@ abstract class ApiController extends BaseController implements ApiConfigurableCo
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    private BaseRepository $repository;
-    private ApiViewModelInterface $viewModel;
-    private ApiMapperInterface $mapper;
+    protected BaseRepository $repository;
+    protected ApiViewModelInterface $viewModel;
+    protected ApiMapperInterface $mapper;
 
     protected const DEFAULT_PAGE_SIZE = 10;
     protected const MAX_PAGE_SIZE = 50;
 
     public function __construct()
     {
-        $this->repository = $this->getRepository();
-        $this->viewModel = $this->getViewModel();
-        $this->mapper = $this->getMapper();
+        $this->repository   = $this->getRepository();
+        $this->viewModel    = $this->getViewModel();
+        $this->mapper       = $this->getMapper();
     }
 
     public function index(Request $request) : JsonResponse

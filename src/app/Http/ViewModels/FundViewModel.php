@@ -30,7 +30,7 @@ class FundViewModel implements ApiViewModelInterface
             'name'          => $record->name,
             'start_year'    => $record->start_year,
             'fund_manager'  => $fundManagerViewModel->details($record->manager),
-            'aliases'       => $record->aliases,
+            'aliases'       => $record->aliases->pluck('name'),
             'created_at'    => $record->created_at,
             'updated_at'    => $record->updated_at,
         ];

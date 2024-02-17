@@ -8,12 +8,9 @@ use App\Http\Repositories\FundRepository;
 use App\Http\Repositories\BaseRepository;
 use App\Http\ViewModels\ApiViewModelInterface;
 use App\Http\ViewModels\FundViewModel;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class FundApiController extends ApiController
 {
-
     //@todo, this can be moved to properties or to the abstract class since there's no need to be public
     public function getRepository(): BaseRepository
     {
@@ -30,8 +27,12 @@ class FundApiController extends ApiController
         return new FundMapper();
     }
 
-    public function store(Request $request): JsonResponse
+    public function getFilters() : array
     {
-        return parent::store($request);
+        return [
+            'year'      => [ 'equal', 'not', 'greater', 'lesser' ],
+            'name'      => [ 'equal', 'not'],
+            'manager'   => [ 'equal', 'not'],
+        ];
     }
 }
