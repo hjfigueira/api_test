@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Repositories;
+namespace App\Repositories\Core;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use \Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /** @todo improve error handling */
 abstract class BaseRepository

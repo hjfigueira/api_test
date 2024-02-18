@@ -10,9 +10,8 @@ use App\Http\ViewModels\FundViewModel;
 use App\Repositories\Core\BaseRepository;
 use App\Repositories\FundRepository;
 
-class FundApiController extends ApiController
+class DuplicatedFundApiController extends ApiController
 {
-    //@todo, this can be moved to properties or to the abstract class since there's no need to be public
     public function getRepository(): BaseRepository
     {
         return new FundRepository();
@@ -26,14 +25,5 @@ class FundApiController extends ApiController
     public function getMapper() : ApiMapperInterface
     {
         return new FundMapper();
-    }
-
-    public function getFilters() : array
-    {
-        return [
-            'year'      => [ 'equal', 'not', 'greater', 'lesser' ],
-            'name'      => [ 'equal', 'not'],
-            'manager'   => [ 'equal', 'not'],
-        ];
     }
 }

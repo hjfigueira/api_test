@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Repositories;
+namespace App\Repositories;
 
 use App\Jobs\CheckDuplicatedFund;
 use App\Models\Fund;
+use App\Repositories\Core\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 

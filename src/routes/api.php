@@ -23,5 +23,5 @@ Route::addRoute('GET', 'healthcheck', function(Request $request){
     return new JsonResponse(['status' => 'OK']);
 });
 
-Route::apiResource('company', \App\Http\Controllers\CompanyApiController::class);
+Route::apiResource('duplicate', \App\Http\Controllers\DuplicatedFundApiController::class);
 Route::apiResource('fund', \App\Http\Controllers\FundApiController::class);

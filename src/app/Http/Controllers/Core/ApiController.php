@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Core;
 
 use App\Http\Mapper\ApiMapperInterface;
-use App\Http\Repositories\BaseRepository;
 use App\Http\ViewModels\ApiViewModelInterface;
+use App\Repositories\Core\BaseRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Validation\ValidationException;
 
 abstract class ApiController extends BaseController implements ApiConfigurableController
