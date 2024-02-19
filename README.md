@@ -12,4 +12,13 @@
 
 ## Considerations
 - The current app also fires the check duplicate routine on fund update and creation, in an on demand basis.
+- Currently, the communication back to the worker, is done thru the database, other methods could be investigated.
 
+## Tasks
+- Implement full scan dup check. <- test
+- Implement filtering
+- ~~Implement dependency injection~~
+- Create API tests
+- Maybe some Unit tests to the classes that search for dups.
+- Add style checks
+- Test deployment from zero.

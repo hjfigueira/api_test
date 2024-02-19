@@ -56,3 +56,14 @@ services:
         depends_on:
             - kafka
             - database
+
+    listener:
+        restart: always
+        build:
+            dockerfile: ".docker/Dockerfile_listener"
+            context: "."
+        volumes:
+            - ./src:/var/www/html
+        depends_on:
+            - kafka
+            - database

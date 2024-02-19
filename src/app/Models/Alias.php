@@ -13,6 +13,7 @@ class Alias extends Model
 
     protected $table = 'alias';
 
+
     public function fund()
     {
         return $this->belongsTo(Company::class);

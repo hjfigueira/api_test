@@ -8,7 +8,4 @@ use App\Repositories\Core\BaseRepository;
 
 interface ApiConfigurableController
 {
-    function getRepository() : BaseRepository;
-    function getViewModel() : ApiViewModelInterface;
-    function getMapper() : ApiMapperInterface;
 }

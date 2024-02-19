@@ -13,15 +13,15 @@ class Company extends Model
 
     protected $table = 'company';
 
+
     public function aliases()
     {
         return $this->hasMany(Alias::class);
     }
 
+
     public function investedBy()
     {
-        return $this->hasManyThrough(Fund::class,'company_fund');
+        return $this->hasManyThrough(Fund::class, 'company_fund');
     }
-
-
 }

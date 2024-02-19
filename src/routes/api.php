@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DuplicatedFundApiController;
+use App\Http\Controllers\FundApiController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,13 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-Route::addRoute('GET', 'healthcheck', function(Request $request){
+Route::addRoute('GET', 'healthcheck', function () {
     return new JsonResponse(['status' => 'OK']);
 });
 
-Route::apiResource('duplicate', \App\Http\Controllers\DuplicatedFundApiController::class);
-Route::apiResource('fund', \App\Http\Controllers\FundApiController::class);
+Route::apiResource('duplicate', DuplicatedFundApiController::class);
+Route::apiResource('fund', FundApiController::class);

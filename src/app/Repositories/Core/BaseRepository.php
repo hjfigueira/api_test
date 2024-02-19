@@ -6,23 +6,25 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-/** @todo improve error handling */
 abstract class BaseRepository
 {
-    /**
-     * @var Builder Builder instance linked with a specific model
-     */
     private Builder $queryBuilder;
 
+    private Model $modelClass;
 
 
-    abstract public function getModel() : Model;
-
-
-    public function __construct()
+    public function __construct(Model $modelClass)
     {
-        $this->queryBuilder = $this->getModel()->newQuery();
+        $this->modelClass   = $modelClass;
+        $this->queryBuilder = $this->modelClass->newQuery();
     }
+
+
+    public function getModel() : Model
+    {
+        return new $this->modelClass;
+    }
+
 
     public function findOneById(int $id) : Model
     {
@@ -30,21 +32,25 @@ abstract class BaseRepository
         return $queryBuilder->find($id);
     }
 
+
     public function findAllPaginated(int $perPage, int $page): LengthAwarePaginator
     {
-        return $this->queryBuilder->paginate($perPage,['*'], null, $page);
+        return $this->queryBuilder->paginate($perPage, ['*'], 'page', $page);
     }
+
 
     public function store(Model $model): Model|Builder
     {
         return $this->queryBuilder->create($model->toArray());
     }
 
+
     public function update(Model $model) : Model
     {
         $this->queryBuilder->update($model->toArray());
         return $model->refresh();
     }
+
 
     public function destroy(Model $model): ?bool
     {
