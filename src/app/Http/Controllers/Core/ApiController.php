@@ -6,6 +6,7 @@ use App\Http\Interfaces\ApiFilterableController;
 use App\Http\Interfaces\ApiMapperInterface;
 use App\Http\Interfaces\ApiViewModelInterface;
 use App\Repositories\Core\BaseRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
@@ -76,9 +77,13 @@ abstract class ApiController extends BaseController
 
     public function show(Request $request, int $id) : JsonResponse
     {
-        $record     = $this->repository->findOneById($id);
-        $parsedData = $this->viewModel->detail($record);
-        return new JsonResponse($parsedData);
+        try {
+            $record     = $this->repository->findOneById($id);
+            $parsedData = $this->viewModel->detail($record);
+            return new JsonResponse($parsedData);
+        } catch (ModelNotFoundException $error) {
+            return new JsonResponse(['message' => 'record not found'], 404);
+        }
     }
 
 
@@ -87,15 +92,14 @@ abstract class ApiController extends BaseController
         $jsonBodyData = $request->all();
         try {
             $this->validate($request, $this->mapper->storeRules());
+            $newRecord   = $this->repository->getModel();
+            $mappedModel = $this->mapper->store($newRecord, $jsonBodyData);
+            $newModel    = $this->repository->store($mappedModel);
+            $parsedData  = $this->viewModel->detail($newModel);
+            return new JsonResponse($parsedData);
         } catch (ValidationException $error) {
             return new JsonResponse($error->errors(), $error->status);
         }
-
-        $newRecord   = $this->repository->getModel();
-        $mappedModel = $this->mapper->store($newRecord, $jsonBodyData);
-        $newModel    = $this->repository->store($mappedModel);
-        $parsedData  = $this->viewModel->detail($newModel);
-        return new JsonResponse($parsedData);
     }
 
 
@@ -104,15 +108,14 @@ abstract class ApiController extends BaseController
         $jsonBodyData = $request->all();
         try {
             $this->validate($request, $this->mapper->updateRules());
+            $existingModel = $this->repository->findOneById($id);
+            $mappedModel   = $this->mapper->update($existingModel, $jsonBodyData);
+            $updatedRecord = $this->repository->update($mappedModel);
+            $parsedData    = $this->viewModel->detail($updatedRecord);
+            return new JsonResponse($parsedData);
         } catch (ValidationException $error) {
             return new JsonResponse($error->errors(), $error->status);
         }
-
-        $existingModel = $this->repository->findOneById($id);
-        $mappedModel   = $this->mapper->update($existingModel, $jsonBodyData);
-        $updatedRecord = $this->repository->update($mappedModel);
-        $parsedData    = $this->viewModel->detail($updatedRecord);
-        return new JsonResponse($parsedData);
     }
 
 

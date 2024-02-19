@@ -29,7 +29,7 @@ abstract class BaseRepository
     public function findOneById(int $id) : Model
     {
         $queryBuilder = $this->queryBuilder->findOrFail($id);
-        return $queryBuilder->find($id);
+        return $queryBuilder->findOrFail($id);
     }
 
 

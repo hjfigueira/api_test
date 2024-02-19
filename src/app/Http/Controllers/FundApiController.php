@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Core\ApiController;
-use App\Http\Filters\Core\FilterableApi;
+use App\Http\Filters\Core\ApiFilterable;
 use App\Http\Interfaces\ApiFilterableController;
 
 class FundApiController extends ApiController implements ApiFilterableController
 {
-    use FilterableApi;
+    use ApiFilterable;
 
     public function getFilters() : array
     {

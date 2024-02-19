@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 /**
  * @property ApiFilterableRepository $repository
  */
-trait FilterableApi
+trait ApiFilterable
 {
     /** @var array|string[] This should be moved to a proper service */
     protected const array AVAILABLE_FILTERS = [

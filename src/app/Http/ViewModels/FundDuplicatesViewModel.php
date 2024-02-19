@@ -26,8 +26,8 @@ class FundDuplicatesViewModel implements ApiViewModelInterface
     {
         return [
             'id'   => $record->id,
-            'parent_id' => $this->fundViewModel->detail($record->parent),
-            'duplicate_id' => $this->fundViewModel->detail($record->duplicate),
+            'parent' => $this->fundViewModel->detail($record->parent),
+            'duplicate' => $this->fundViewModel->detail($record->duplicate),
             'resolved' => $record->resolved
         ];
     }
