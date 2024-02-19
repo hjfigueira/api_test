@@ -59,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
                 $fundViewModel  = $app->make(FundDuplicatesViewModel::class);
                 $fundRepository = $app->make(FundDuplicatesRepository::class);
 
-                return new FundApiController($fundRepository, $fundViewModel, $fundMapper);
+                return new FundDuplicatesApiController($fundRepository, $fundViewModel, $fundMapper);
             }
         );
 

@@ -16,7 +16,7 @@
 
 ## Tasks
 - ~~Implement full scan dup check.~~
-- Implement filtering
+- ~~Implement filtering~~
 - ~~Implement dependency injection~~
 - Create API tests
 - Maybe some Unit tests to the classes that search for dups.

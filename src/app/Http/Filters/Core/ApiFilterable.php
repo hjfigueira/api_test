@@ -28,7 +28,6 @@ trait ApiFilterable
         $requestFilters = $request->query('filter');
         $query = $this->repository->getFilterableQuery();
 
-
         foreach ($enabledFilters as $field => $operands) {
             $filtersForField = $requestFilters[$field] ?? [];
 
@@ -36,6 +35,7 @@ trait ApiFilterable
                 return $this->modifyQueryForField($builder, $operands, $field, $filtersForField);
             });
         }
+
         return $query->paginate($perPage, ['*'], 'page', $page);
     }
 

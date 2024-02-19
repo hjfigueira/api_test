@@ -17,6 +17,9 @@ class FundDuplicatesApiController extends ApiController implements ApiFilterable
         return [
             'parent_id'    => [
                 'equal'
+            ],
+            'resolved'      => [
+                'equal'
             ]
         ];
     }
