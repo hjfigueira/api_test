@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\DuplicatedFundApiController;
+use App\Http\Controllers\FundDuplicatesApiController;
 use App\Http\Controllers\FundApiController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,5 +21,5 @@ Route::addRoute('GET', 'healthcheck', function () {
     return new JsonResponse(['status' => 'OK']);
 });
 
-Route::apiResource('duplicate', DuplicatedFundApiController::class);
+Route::apiResource('duplicates', FundDuplicatesApiController::class);
 Route::apiResource('fund', FundApiController::class);

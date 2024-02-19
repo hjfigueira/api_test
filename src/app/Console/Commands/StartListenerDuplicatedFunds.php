@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\DuplicatedFundCandidate;
+use App\Models\FundDuplicatesCandidate;
 use App\Models\Fund;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -84,7 +84,7 @@ class StartListenerDuplicatedFunds extends Command
         $parent    = Fund::query()->find($parentId);
         $duplicate = Fund::query()->find($duplicateId);
 
-        $duplicatedCandidate = new DuplicatedFundCandidate();
+        $duplicatedCandidate = new FundDuplicatesCandidate();
         $duplicatedCandidate->parent()->associate($parent);
         $duplicatedCandidate->duplicate()->associate($duplicate);
         $duplicatedCandidate->save();

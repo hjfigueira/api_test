@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Core;
 
-use App\Http\Mapper\ApiMapperInterface;
-use App\Http\ViewModels\ApiViewModelInterface;
+use App\Http\Interfaces\ApiFilterableController;
+use App\Http\Interfaces\ApiMapperInterface;
+use App\Http\Interfaces\ApiViewModelInterface;
 use App\Repositories\Core\BaseRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -12,6 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @method applyFilters(Request $request, int $perPage, int $page)
+ */
 abstract class ApiController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
@@ -45,7 +49,12 @@ abstract class ApiController extends BaseController
         $perPage = min(($pageSettings['perPage'] ?? self::DEFAULT_PAGE_SIZE), self::MAX_PAGE_SIZE);
         $page    = ($pageSettings['page'] ?? 1);
 
-        $recordsList   = $this->repository->findAllPaginated($perPage, $page);
+        if ($this instanceof ApiFilterableController) {
+            $recordsList    = $this->applyFilters($request, $perPage, $page);
+        } else {
+            $recordsList    = $this->repository->findAllPaginated($perPage, $page);
+        }
+
         $parsedRecords = [];
 
         foreach ($recordsList->items() as $item) {
@@ -67,8 +76,8 @@ abstract class ApiController extends BaseController
 
     public function show(Request $request, int $id) : JsonResponse
     {
-        $record     = $this->repository->findOneById((int) $id);
-        $parsedData = $this->viewModel->details($record);
+        $record     = $this->repository->findOneById($id);
+        $parsedData = $this->viewModel->detail($record);
         return new JsonResponse($parsedData);
     }
 
@@ -85,7 +94,7 @@ abstract class ApiController extends BaseController
         $newRecord   = $this->repository->getModel();
         $mappedModel = $this->mapper->store($newRecord, $jsonBodyData);
         $newModel    = $this->repository->store($mappedModel);
-        $parsedData  = $this->viewModel->details($newModel);
+        $parsedData  = $this->viewModel->detail($newModel);
         return new JsonResponse($parsedData);
     }
 
@@ -102,7 +111,7 @@ abstract class ApiController extends BaseController
         $existingModel = $this->repository->findOneById($id);
         $mappedModel   = $this->mapper->update($existingModel, $jsonBodyData);
         $updatedRecord = $this->repository->update($mappedModel);
-        $parsedData    = $this->viewModel->details($updatedRecord);
+        $parsedData    = $this->viewModel->detail($updatedRecord);
         return new JsonResponse($parsedData);
     }
 
@@ -111,9 +120,9 @@ abstract class ApiController extends BaseController
     {
         $model = $this->repository->findOneById($id);
         if ($this->repository->destroy($model)) {
-            return new JsonResponse('', 200);
+            return new JsonResponse(['message' => 'deleted successfully'], 200);
         };
 
-        return new JsonResponse('', 500);
+        return new JsonResponse(['message' => 'error while removing the record'], 500);
     }
 }

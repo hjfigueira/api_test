@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseRepository
 {
-    private Builder $queryBuilder;
+    protected Builder $queryBuilder;
 
     private Model $modelClass;
 

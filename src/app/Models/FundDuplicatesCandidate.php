@@ -6,11 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class DuplicatedFundCandidate extends Model
+/**
+ * Model class for Fund.
+ *
+ * @property int $id
+ * @property int $parent_id
+ * @property int $duplicate_id
+ * @property boolean $resolved
+ * @property Fund $parent;
+ * @property Fund $duplicate;
+ */
+
+class FundDuplicatesCandidate extends Model
 {
     use HasFactory;
 
-    protected $table = 'duplicated_fund_candidate';
+    protected $table = 'fund_duplicated_candidate';
 
 
     public function parent(): BelongsTo
@@ -19,7 +30,7 @@ class DuplicatedFundCandidate extends Model
     }
 
 
-    public function duplicate(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function duplicate(): BelongsTo
     {
         return $this->belongsTo(Fund::class, 'duplicate_id');
     }

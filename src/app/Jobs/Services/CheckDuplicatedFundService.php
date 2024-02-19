@@ -89,7 +89,7 @@ class CheckDuplicatedFundService
                 'id',
                 function ($subquery) use ($parent_id) {
                     $subquery->select('duplicate_id')
-                        ->from('duplicated_fund_candidate')
+                        ->from('fund_duplicated_candidate')
                         ->where('parent_id', '=', $parent_id)
                         ->where('resolved', '=', false);
                 }

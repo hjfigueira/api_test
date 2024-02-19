@@ -54,6 +54,6 @@ class Fund extends Model
 
     public function duplicate()
     {
-        return $this->belongsToMany(Fund::class, 'duplicated_fund_candidate', 'parent_id', 'duplicate_id');
+        return $this->belongsToMany(Fund::class, 'fund_duplicated_candidate', 'parent_id', 'duplicate_id');
     }
 }

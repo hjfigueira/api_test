@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Mapper;
+namespace App\Http\Interfaces;
 
 use Illuminate\Database\Eloquent\Model;
 

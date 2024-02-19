@@ -2,12 +2,18 @@
 
 namespace App\Http\ViewModels;
 
+use App\Http\Interfaces\ApiViewModelInterface;
 use App\Models\Fund;
 use Illuminate\Database\Eloquent\Model;
 
 class FundViewModel implements ApiViewModelInterface
 {
 
+    public function __construct(
+        private FundManagerViewModel $fundManagerViewModel
+    )
+    {
+    }
 
     /**
      * Parse details for the single record view
@@ -15,7 +21,7 @@ class FundViewModel implements ApiViewModelInterface
      * @param  Fund $record
      * @return array
      */
-    public function details(Model $record) : array
+    public function detail(Model $record) : array
     {
         return $this->baseFormat($record);
     }
@@ -41,13 +47,11 @@ class FundViewModel implements ApiViewModelInterface
      */
     public function baseFormat(Model $record): array
     {
-        $fundManagerViewModel = new FundManagerViewModel();
-
         return [
             'id'           => $record->id,
             'name'         => $record->name,
             'start_year'   => $record->start_year,
-            'fund_manager' => $fundManagerViewModel->details($record->manager),
+            'fund_manager' => $this->fundManagerViewModel->detail($record->manager),
             'aliases'      => $record->aliases->pluck('name'),
             'created_at'   => $record->created_at,
             'updated_at'   => $record->updated_at,

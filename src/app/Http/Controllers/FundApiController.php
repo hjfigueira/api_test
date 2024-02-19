@@ -3,27 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Core\ApiController;
+use App\Http\Filters\Core\FilterableApi;
+use App\Http\Interfaces\ApiFilterableController;
 
-class FundApiController extends ApiController
+class FundApiController extends ApiController implements ApiFilterableController
 {
-
+    use FilterableApi;
 
     public function getFilters() : array
     {
         return [
-            'year'    => [
+            'start_year'    => [
                 'equal',
-                'not',
-                'greater',
-                'lesser',
+                'lessEq',
             ],
             'name'    => [
                 'equal',
-                'not',
             ],
-            'manager' => [
+            'fund_manager_id' => [
                 'equal',
-                'not',
             ],
         ];
     }

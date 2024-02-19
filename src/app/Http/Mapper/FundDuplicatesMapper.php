@@ -6,7 +6,7 @@ use App\Http\Interfaces\ApiMapperInterface;
 use App\Models\Fund;
 use Illuminate\Database\Eloquent\Model;
 
-class FundMapper implements ApiMapperInterface
+class FundDuplicatesMapper implements ApiMapperInterface
 {
 
 

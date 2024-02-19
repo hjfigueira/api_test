@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewModels;
+namespace App\Http\Interfaces;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ interface ApiViewModelInterface
      * @param Model $record
      * @return array mapped return to be transformed into JSON
      */
-    public function details(Model $record) : array;
+    public function detail(Model $record) : array;
 
 
     /**

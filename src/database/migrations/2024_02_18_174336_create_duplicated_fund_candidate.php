@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('duplicated_fund_candidate', function (Blueprint $table) {
+        Schema::create('fund_duplicated_candidate', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->boolean('resolved')->default(false);
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('duplicated_fund_candidate');
+        Schema::dropIfExists('fund_duplicated_candidate');
     }
 };
