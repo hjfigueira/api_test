@@ -2,6 +2,7 @@
 
 namespace App\Http\Filters\Core;
 
+use App\Http\Filters\FilterGreaterEqual;
 use App\Http\Interfaces\ApiFilterableRepository;
 use App\Http\Filters\FilterEquals;
 use App\Http\Filters\FilterLesserEqual;
@@ -17,7 +18,8 @@ trait FilterableApi
     /** @var array|string[] This should be moved to a proper service */
     protected const array AVAILABLE_FILTERS = [
         'equal'     => FilterEquals::class,
-        'lessEq'    => FilterLesserEqual::class
+        'lessEq'    => FilterLesserEqual::class,
+        'greatEq'   => FilterGreaterEqual::class
     ];
 
     public function applyFilters(Request $request, int $perPage, int $page) : LengthAwarePaginator
@@ -34,7 +36,6 @@ trait FilterableApi
                 return $this->modifyQueryForField($builder, $operands, $field, $filtersForField);
             });
         }
-
         return $query->paginate($perPage, ['*'], 'page', $page);
     }
 
