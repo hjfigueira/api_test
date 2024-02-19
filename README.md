@@ -1,7 +1,17 @@
 # Example Application
 
+## Run Instructions
 
+### Requirements.
+1. Having docker compose or docker-compose installed locally.
+2. Having git installed locally.
 
+### How to run.
+1. Clone the project;
+2. Copy the file `.env.dev.example` to `.env`. Values for dev should be already configured.
+3. Start the containers with `docker compose up`. Might be  `docker-compose up -d` depending on your docker version.
+   1. All imagine start after the composer service finishes.
+ 
 
 ## Improvements
 - Actions can be further abstracted to and individual action basis (possible use of php traits) 
@@ -13,6 +23,7 @@
 ## Considerations
 - The current app also fires the check duplicate routine on fund update and creation, in an on demand basis.
 - Currently, the communication back to the worker, is done thru the database, other methods could be investigated.
+- Docker compose and docker file should migrate the "composer" step, to the build.
 
 ## Tasks
 - ~~Implement full scan dup check.~~

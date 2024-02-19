@@ -2,6 +2,13 @@ version: "3.8"
 
 services:
 
+    composer:
+        restart: no
+        image: composer
+        volumes:
+            - ./src:/app
+        command: composer install --ignore-platform-reqs
+
     web:
         image: nginx:mainline
         ports:
@@ -14,13 +21,17 @@ services:
 
     php-fpm:
         build:
-            dockerfile: ".docker/Dockerfile_api"
+            dockerfile: ".docker/Dockerfile_api_dev"
             context: "."
         volumes:
             - ./src:/var/www/html
         depends_on:
-            - kafka
-            - database
+            kafka :
+                condition: service_started
+            database:
+                condition: service_started
+            composer :
+                condition: service_completed_successfully
 
     database:
         image: postgres:12.18-bullseye
@@ -49,21 +60,25 @@ services:
     worker:
         restart: always
         build:
-            dockerfile: ".docker/Dockerfile_worker"
+            dockerfile: ".docker/Dockerfile_api_dev"
             context: "."
+        command: "php artisan queue:work"
         volumes:
             - ./src:/var/www/html
         depends_on:
             - kafka
             - database
+            - php-fpm
 
     listener:
         restart: always
         build:
-            dockerfile: ".docker/Dockerfile_listener"
+            dockerfile: ".docker/Dockerfile_api_dev"
             context: "."
+        command : "php artisan event-listener:duplicated-funds"
         volumes:
             - ./src:/var/www/html
         depends_on:
             - kafka
             - database
+            - php-fpm
