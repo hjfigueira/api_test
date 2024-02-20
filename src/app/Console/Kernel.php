@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->job(CheckDuplicatedFundService::class)->everyFiveMinutes();
+        $schedule->job(CheckDuplicatedFundService::class)->everyMinute();
 
     }
 

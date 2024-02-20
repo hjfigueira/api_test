@@ -8,46 +8,48 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseRepository
 {
-    protected Builder $queryBuilder;
-
     private Model $modelClass;
 
 
     public function __construct(Model $modelClass)
     {
         $this->modelClass   = $modelClass;
-        $this->queryBuilder = $this->modelClass->newQuery();
     }
 
+    public function getQuery(): Builder
+    {
+        return $this->modelClass->newQuery();
+    }
 
     public function getModel() : Model
     {
-        return new $this->modelClass;
+        return ($this->modelClass)::newModelInstance();
     }
 
 
     public function findOneById(int $id) : Model
     {
-        $queryBuilder = $this->queryBuilder->findOrFail($id);
+        $queryBuilder = $this->getQuery();
         return $queryBuilder->findOrFail($id);
     }
 
 
     public function findAllPaginated(int $perPage, int $page): LengthAwarePaginator
     {
-        return $this->queryBuilder->paginate($perPage, ['*'], 'page', $page);
+        return $this->getQuery()->paginate($perPage, ['*'], 'page', $page);
     }
 
 
-    public function store(Model $model): Model|Builder
+    public function store(Model $model): Model
     {
-        return $this->queryBuilder->create($model->toArray());
+        $model->save();
+        return $model->refresh();
     }
 
 
     public function update(Model $model) : Model
     {
-        $this->queryBuilder->update($model->toArray());
+        $model->update();
         return $model->refresh();
     }
 

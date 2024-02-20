@@ -11,9 +11,15 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Repository class for the Fund
+ *
+ * @method findOneById(int $id) : Fund
  */
 class FundRepository extends BaseRepository implements ApiFilterableRepository
 {
+    public function getFilterableQuery(): Builder
+    {
+        return $this->getQuery();
+    }
 
     public function store(Model $model): Model
     {
@@ -30,10 +36,5 @@ class FundRepository extends BaseRepository implements ApiFilterableRepository
         $model = parent::update($model);
         SingleCheckDuplicatedFund::dispatch($model->id);
         return $model;
-    }
-
-    public function getFilterableQuery(): Builder
-    {
-        return $this->queryBuilder;
     }
 }

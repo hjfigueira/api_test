@@ -3,6 +3,7 @@
 namespace App\Jobs\Services;
 
 use App\Models\Fund;
+use App\Repositories\FundRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Junges\Kafka\Facades\Kafka;
@@ -16,15 +17,22 @@ class CheckDuplicatedFundService
     private const string ERROR_SENDING_MESSAGE = 'error while sending message to kafka';
 
 
+    public function __construct(
+        protected FundRepository $fundRepository
+    )
+    {
+    }
     /**
      * Execute the job.
      */
-    public function handle(?int $fundId): void
+    public function handle(?int $fundId = null): void
     {
+        $query = $this->fundRepository->getQuery();
+
         if ($fundId == null) {
-            $fundCheckCollection = Fund::all();
+            $fundCheckCollection = $query->get();
         } else {
-            $fundCheckCollection = Fund::query()->where('id', $fundId)->get();
+            $fundCheckCollection = $query->where('id', $fundId)->get();
         }
 
         /** @var Fund $fund */
@@ -69,10 +77,17 @@ class CheckDuplicatedFundService
     }
 
 
+    /**
+     * This could be moved to the listener, so it checks per record
+     *
+     * @param Fund $fund
+     * @param array $fundIdentifiers
+     * @return Collection
+     */
     protected function getPotentialDuplicates(Fund $fund, array $fundIdentifiers) : Collection
     {
         $parent_id = $fund->id;
-        return Fund::query()->where(
+        return $this->fundRepository->getQuery()->where(
             function ($query) use ($fundIdentifiers) {
                 $query->whereIn('name', $fundIdentifiers)
                     ->orWhereHas(

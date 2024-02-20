@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             FundDuplicatesRepository::class,
             function (Application $app) {
-                return new FundRepository($app->make(FundDuplicatesCandidate::class));
+                return new FundDuplicatesRepository($app->make(FundDuplicatesCandidate::class));
             }
         );
 
@@ -62,7 +62,6 @@ class AppServiceProvider extends ServiceProvider
                 return new FundDuplicatesApiController($fundRepository, $fundViewModel, $fundMapper);
             }
         );
-
     }
 
 
