@@ -4,8 +4,10 @@ namespace App\Console\Commands;
 
 use App\Models\FundDuplicatesCandidate;
 use App\Models\Fund;
+use Carbon\Exceptions\Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Junges\Kafka\Exceptions\KafkaConsumerException;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Contracts\KafkaConsumerMessage;
 
@@ -17,8 +19,10 @@ class StartListenerDuplicatedFunds extends Command
     protected const string KAFKA_MESSAGE_RECEIVED  = 'new message received for topic %s : %s';
     protected const string KAFKA_MESSAGE_ERROR     = 'error while processing message from topic %s : %s';
     protected const string KAFKA_MESSAGE_LISTENING = 'listening for kafka messages for topic %s';
+    protected const string KAFKA_MESSAGE_LISTENING_ERROR =
+        'error while while creating consumer, topic %s might not have been created yet';
 
-    protected const string KAFKA_TOPIC = 'candidate-fund-duplicate';
+    protected const string KAFKA_TOPIC = 'duplicate_fund_warning';
 
     /**
      * The name and signature of the console command.
@@ -52,7 +56,12 @@ class StartListenerDuplicatedFunds extends Command
             )
             ->build();
 
-        $consumer->consume();
+        try {
+            $consumer->consume();
+        } catch (Exception | KafkaConsumerException $e) {
+            $this->output->info(sprintf(self::KAFKA_MESSAGE_LISTENING_ERROR, self::KAFKA_TOPIC));
+            Log::info(sprintf(self::KAFKA_MESSAGE_LISTENING_ERROR, self::KAFKA_TOPIC));
+        }
     }
 
 

@@ -8,10 +8,10 @@
 
 ### How to run.
 1. Clone the project;
-2. Copy the file `.env.dev.example` to `.env`. Values for dev should be already configured.
-3. Start the containers with `docker compose up`. Might be  `docker-compose up -d` depending on your docker version.
+2. Copy the file `./src/.env.dev.example` to `./src/.env`. Values for dev should be already configured.
+3. Start the containers with `docker compose up -d`. Might be  `docker-compose up -d` depending on your docker version.
    1. All imagine start after the composer service finishes.
- 
+4. Run `docker-compose exec php-fpm php artisan migrate:fresh --seed`
 
 ## Improvements
 - Actions can be further abstracted to and individual action basis (possible use of php traits) 
@@ -24,12 +24,22 @@
 - The current app also fires the check duplicate routine on fund update and creation, in an on demand basis.
 - Currently, the communication back to the worker, is done thru the database, other methods could be investigated.
 - Docker compose and docker file should migrate the "composer" step, to the build.
+- After building the project from scratch, the first message might be lost on kafka due the topic not being created.
+
+## Extras
+- phpstan `docker-compose exec php-fpm ./vendor/bin/phpstan`
+- php code sniffer `docker-compose exec php-fpm ./vendor/bin/phpcs`
+
 
 ## Tasks
+- ~~Database Diagram~~
+- ~~Docker dev setup~~
+- ~~Api implementation~~
+- ~~Implement dependency injection~~
+- ~~dependent services and event processing~~
 - ~~Implement full scan dup check.~~
 - ~~Implement filtering~~
-- ~~Implement dependency injection~~
-- Create API tests
-- Maybe some Unit tests to the classes that search for dups.
 - ~~Add style checks~~
-- Test deployment from zero.
+- ~~Test deployment from zero.~~
+- Create API tests <- In progress
+- Unit tests to the classes that search for dups.

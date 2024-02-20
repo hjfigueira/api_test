@@ -104,7 +104,7 @@ class CheckDuplicatedFundService
         /*
          * @var ProducerBuilder $producer
          */
-        $producer = Kafka::publishOn('candidate-fund-duplicate')
+        $producer = Kafka::publishOn('duplicate_fund_warning')
             ->withBodyKey(
                 'candidate',
                 [
