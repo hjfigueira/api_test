@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Alias;
+use App\Models\Company;
+use App\Models\Fund;
 use App\Models\FundManager;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -14,103 +17,56 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $c1 = DB::table('company')->insertGetId([
-            'name' => 'ACME Company',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        $c1 = Company::factory()->create();
+        $c2 = Company::factory()->create();
+        $c3 = Company::factory()->create();
 
-        $c2 = DB::table('company')->insertGetId([
-            'name' => 'SeCond Company',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        $fm1 = FundManager::factory()->create();
+        $fm2 = FundManager::factory()->create();
 
-        $c3 = DB::table('company')->insertGetId([
-            'name' => 'III Company',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-
-        $fm1 = DB::table('fund_manager')->insertGetId([
-            'name' => 'Fund Manager 1',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-
-        $fm2 = DB::table('fund_manager')->insertGetId([
-            'name' => 'Fund Manager 2',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-
-
-        $f1 = DB::table('fund')->insertGetId([
+        $f1 = Fund::factory()->create([
             'name' => 'HTCXX',
             'start_year' => 2023,
-            'created_at' => now(),
-            'updated_at' => now(),
-            'fund_manager_id' => $fm1
+            'fund_manager_id' => $fm1->id
         ]);
-
-        $f2 = DB::table('fund')->insertGetId([
-            'name' => 'DWTXX',
-            'start_year' => 2021,
-            'created_at' => now(),
-            'updated_at' => now(),
-            'fund_manager_id' => $fm1
+        $f2 = Fund::factory()->create([
+                'name' => 'DWTXX',
+                'start_year' => 2021,
+                'fund_manager_id' => $fm1->id
         ]);
-
-
-        $f3 = DB::table('fund')->insertGetId([
+        $f3 = Fund::factory()->create([
             'name' => 'HTCXX',
             'start_year' => 2023,
-            'created_at' => now(),
-            'updated_at' => now(),
-            'fund_manager_id' => $fm1
+            'fund_manager_id' => $fm1->id
         ]);
-
-        $f4 = DB::table('fund')->insertGetId([
+        $f4 = Fund::factory()->create([
             'name' => 'EURXX',
             'start_year' => 2024,
-            'created_at' => now(),
-            'updated_at' => now(),
-            'fund_manager_id' => $fm2
+            'fund_manager_id' => $fm2->id
         ]);
-
-        $f5 = DB::table('fund')->insertGetId([
+        $f5 = Fund::factory()->create([
             'name' => 'IOPXX',
             'start_year' => 2021,
-            'created_at' => now(),
-            'updated_at' => now(),
-            'fund_manager_id' => $fm2
+            'fund_manager_id' => $fm2->id
         ]);
 
-        DB::table('alias')->insertGetId([
+        Alias::factory()->create([
             'name' => 'IOPXX_ALIAS',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'fund_id' => $f5
+            'fund_id' => $f5->id
         ]);
-
-        DB::table('alias')->insertGetId([
+        Alias::factory()->create([
             'name' => 'IOPXX_ALIAS 2',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'fund_id' => $f5
+            'fund_id' => $f5->id
         ]);
-
-        DB::table('alias')->insertGetId([
+        Alias::factory()->create([
             'name' => 'EURXX_ALIAS 2',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'fund_id' => $f4
+            'fund_id' => $f4->id
         ]);
 
-        DB::table('company_fund')->insert(['company_id' => $c1, 'fund_id' => $f1]);
-        DB::table('company_fund')->insert(['company_id' => $c2, 'fund_id' => $f1]);
-        DB::table('company_fund')->insert(['company_id' => $c1, 'fund_id' => $f2]);
-        DB::table('company_fund')->insert(['company_id' => $c2, 'fund_id' => $f2]);
-        DB::table('company_fund')->insert(['company_id' => $c3, 'fund_id' => $f3]);
+        DB::table('company_fund')->insert(['company_id' => $c1->id, 'fund_id' => $f1->id]);
+        DB::table('company_fund')->insert(['company_id' => $c2->id, 'fund_id' => $f1->id]);
+        DB::table('company_fund')->insert(['company_id' => $c1->id, 'fund_id' => $f2->id]);
+        DB::table('company_fund')->insert(['company_id' => $c2->id, 'fund_id' => $f2->id]);
+        DB::table('company_fund')->insert(['company_id' => $c3->id, 'fund_id' => $f3->id]);
     }
 }

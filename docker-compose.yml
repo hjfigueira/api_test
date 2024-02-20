@@ -2,13 +2,6 @@ version: "3.8"
 
 services:
 
-    composer:
-        restart: no
-        image: composer
-        volumes:
-            - ./src:/app
-        command: composer install --ignore-platform-reqs
-
     web:
         image: nginx:mainline
         ports:
@@ -30,8 +23,6 @@ services:
                 condition: service_started
             database:
                 condition: service_started
-            composer :
-                condition: service_completed_successfully
 
     database:
         image: postgres:12.18-bullseye

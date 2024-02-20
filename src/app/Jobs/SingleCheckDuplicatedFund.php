@@ -13,24 +13,21 @@ class SingleCheckDuplicatedFund implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private int $fundId;
-
-
     /**
      * Create a new job instance.
      */
-    public function __construct(?int $fundId)
+    public function __construct(
+        protected ?int $fundId,
+    )
     {
-        $this->fundId = $fundId;
     }
 
 
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(CheckDuplicatedFundService $checkForDuplicatesService): void
     {
-        $checkForDuplicatesService = new CheckDuplicatedFundService();
         $checkForDuplicatesService->handle($this->fundId);
     }
 }
