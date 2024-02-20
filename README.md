@@ -43,7 +43,8 @@ Note:
 ## Extras
 - phpstan `docker-compose exec php-fpm ./vendor/bin/phpstan`
 - php code sniffer `docker-compose exec php-fpm ./vendor/bin/phpcs`
-
+- php tests `docker compose exec php-fpm php artisan test`
+- github actions currently run tests, sniffer and phpstan
 
 ## Tasks
 - ~~Database Diagram~~
