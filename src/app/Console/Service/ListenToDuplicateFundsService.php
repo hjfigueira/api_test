@@ -84,7 +84,9 @@ class ListenToDuplicateFundsService
             return;
         }
 
+        /** @var Fund $parent */
         $parent    = $this->fund->findOneById($parentId);
+        /** @var Fund $duplicate */
         $duplicate = $this->fund->findOneById($duplicateId);
 
         if (!$this->fdRpo->hasInverseRelation($parent, $duplicate)) {

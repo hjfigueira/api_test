@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Repository class for the Fund
- *
- * @method findOneById(int $id) : Fund
  */
 class FundRepository extends BaseRepository implements ApiFilterableRepository
 {

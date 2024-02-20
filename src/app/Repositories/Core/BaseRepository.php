@@ -23,6 +23,7 @@ abstract class BaseRepository
 
     public function getModel() : Model
     {
+        /** @phpstan-ignore-next-line */
         return ($this->modelClass)::newModelInstance();
     }
 

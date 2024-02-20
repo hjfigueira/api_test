@@ -10,6 +10,8 @@ For the check duplicates, the data flow is as follows :
  - **Kafka** ---- ( stores and distributes the duplicated records message)
  - **Listener**-- ( stores duplicates in the database )
 
+Alternatively, by changing the docker-compose file, the application can run a background check every minute.
+
 Note: 
 1. Duplicates are reinserted in the database, if they're already not present, or if the record found is marked as resolved = true. 
 2. The duplicates parent_id/duplicate_id is reversible, so inserting the relation in both directions is avoided. 
@@ -35,7 +37,6 @@ Note:
 - Query optimization, some eloquent queries although simpler to develop, may generate overly complicated final query statements
 
 ## Considerations
-- The current app also fires the check duplicate routine on fund update and creation, in an on demand basis.
 - Currently, the communication back to the worker, is done thru the database, other methods could be investigated.
 - After building the project from scratch, the first message might be lost on kafka due the topic not being created.
 
@@ -54,5 +55,5 @@ Note:
 - ~~Implement filtering~~
 - ~~Add style checks~~
 - ~~Test deployment from zero.~~
-- ~~Create API tests <- In progress~~
-- Unit tests to the classes that search for dups.
+- ~~Create API tests~~
+- Unit tests to the classes that search for Dups.
