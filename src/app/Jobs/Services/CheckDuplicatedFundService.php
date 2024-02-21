@@ -30,6 +30,8 @@ class CheckDuplicatedFundService
         $query = $this->fundRepository->getQuery();
 
         if ($fundId == null) {
+            // This check should get only latest timestamp changes os it doesn't go thru the entire database
+            // Alter processing, store the last timestamp, and continue processing from there.
             $fundCheckCollection = $query->get();
         } else {
             $fundCheckCollection = $query->where('id', $fundId)->get();
